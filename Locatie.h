@@ -226,14 +226,18 @@ public:
 			{
 				delete[] this->nume_zone;
 			}
+			
 		}
 		if (i == 0) {
 			this->nume_zone = new char* [numar_zone];
 		}
+		
+		if (nume_zone != nullptr) {
 
-		this->nume_zone[i] = new char[strlen(nume_zone) + 1];
+			this->nume_zone[i] = new char[strlen(nume_zone) + 1];
 
-		strcpy_s(this->nume_zone[i], strlen(nume_zone) + 1, nume_zone);
+			strcpy_s(this->nume_zone[i], strlen(nume_zone) + 1, nume_zone);
+		}
 
 	}
 
@@ -251,17 +255,17 @@ public:
 					delete[] this->nume_zone;
 				}
 
-				this->nume_zone = new char* [numar_zone];
+				this->nume_zone = new char* [l.numar_zone];
 
 				for (int i = 0; i <l.numar_zone; i++)
 				{
-					this->nume_zone[i] = new char[25];
+					this->nume_zone[i] = new char[41];
 				}
 
 				for (int i = 0; i < l.numar_zone; i++)
 				{
 
-					strcpy_s(this->nume_zone[i], strlen(l.nume_zone[i]) + 1, l.nume_zone[i]);
+					strcpy_s(this->nume_zone[i], strlen(l.nume_zone[i])+1, l.nume_zone[i]);
 
 				}
 			}
@@ -320,72 +324,62 @@ public:
 	}
 	
 
-	//Locatie(const Locatie& a) :oras(a.oras)
-	//{
-	//	this->nume_locatie = a.nume_locatie;
-	//	this->numar_max_locuri = a.numar_max_locuri;
-	//	if (a.nume_zone!=nullptr && a.numar_zone > 0)
-	//	{
-	//		this->nume_zone = new char* [a.numar_zone];
-	//		for (int i = 0; i < a.numar_zone; i++)
-	//		{
-	//			this->nume_zone[i] = new char[strlen(a.nume_zone[i]) + 1];
-	//			strcpy_s(nume_zone[i], strlen(a.nume_zone[i]) + 1, a.nume_zone[i]);
-	//		}
-
-	//	}
-	//	else {
-	//		this->nume_zone = nullptr;
-	//		this->numar_zone = 0;
-	//	}
 
 
-	//	if (a.randuri_per_zona != nullptr && a.numar_zone > 0)
-	//	{
-	//		this->randuri_per_zona = new int[a.numar_zone];
-	//		for (int i = 0; i < a.numar_zone; i++)
-	//		{
-	//			this->randuri_per_zona[i] = a.locuri_per_zona[i];
-	//		}
-	//	}
-	//	else 
-	//	{
-	//		this->randuri_per_zona = nullptr;
-	//		this->numar_zone = 0;
-	//	}
-
-
-	//	if (a.locuri_per_zona != nullptr && a.numar_zone > 0)
-	//	{
-	//		this->locuri_per_zona = new int[a.numar_zone];
-	//		for (int i = 0; i < a.numar_zone; i++)
-	//		{
-	//			this->locuri_per_zona[i] = a.locuri_per_zona[i];
-	//		}
-	//	}
-	//	else
-	//	{
-	//		this->locuri_per_zona = nullptr;
-	//		this->numar_zone = 0;
-	//	}
-	//}
-
-	/*~Locatie()
+	Locatie(const Locatie& a) :oras(a.oras)
 	{
-		if (this->nume_zone != nullptr)
+		this->nume_locatie = a.nume_locatie;
+		this->numar_max_locuri = a.numar_max_locuri;
+		if (a.numar_zone > 0)
 		{
-			delete[] this->nume_zone;
+			this->numar_zone = a.numar_zone;
+			if (a.nume_zone != nullptr)
+			{
+				this->nume_zone = new char* [this->numar_zone];
+				for (int i = 0; i < this->numar_zone; i++)
+				{
+					this->nume_zone[i] = new char[strlen(a.nume_zone[i]) + 1];
+					strcpy_s(this->nume_zone[i], strlen(a.nume_zone[i]) + 1, a.nume_zone[i]);
+				}
+			}
+			if (a.randuri_per_zona != nullptr)
+			{
+				this->randuri_per_zona = new int[this->numar_zone];
+				for (int i = 0; i < this->numar_zone; i++)
+				{
+					this->randuri_per_zona[i] = a.randuri_per_zona[i];
+				}
+			}
+			if (a.locuri_per_zona != nullptr)
+			{
+				this->locuri_per_zona = new int[this->numar_zone];
+				for (int i = 0; i < this->numar_zone; i++)
+				{
+					this->locuri_per_zona[i] = a.locuri_per_zona[i];
+				}
+			}
 		}
+		else
+		{
+			this->numar_zone = 0;
+			this->nume_zone = nullptr;
+			this->randuri_per_zona = nullptr;
+			this->locuri_per_zona = nullptr;
+		}
+	}
 
-		if (this->randuri_per_zona != nullptr)
+	~Locatie()
+	{
+	
+		for (int i = 0; i < numar_zone; i++)
 		{
-			delete[] this->randuri_per_zona;
+			delete[] nume_zone[i];
 		}
-		if (this->locuri_per_zona != nullptr)
-		{
-			delete[] this->locuri_per_zona;
-		}
-	}*/
+		delete[] nume_zone;
+
+		delete[] randuri_per_zona;
+		delete[] locuri_per_zona;
+	}
 
 	friend ostream& operator<<(ostream& out, Locatie a);
 	friend istream& operator>>(istream& in, Locatie& a);
