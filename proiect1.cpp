@@ -354,7 +354,7 @@ ostream& operator<<(ostream& out, Locatie a)
 	out << endl;
 	for (int i = 0; i < a.numar_zone; i++)
 	{
-		out << "Numarul de randuri din zona " << a.nume_zone[i] << "este= " << a.randuri_per_zona[i] << endl;
+		/*out << "Numarul de randuri din zona " << a.nume_zone[i] << "este= " << a.randuri_per_zona[i] << endl;*/
 		out << "Numarul de locuri din zona " << a.nume_zone[i] << "este= " << a.locuri_per_zona[i] << endl;
 
 	}
@@ -404,16 +404,30 @@ istream& operator>>(istream& in, Locatie& a)
 			a.locuri_per_zona = nullptr;
 		}
 		a.locuri_per_zona = new int[a.numar_zone];
+		
+		int suma_locuri = 0;
+		int ok = 0;
 
-		for (int i = 0; i < a.numar_zone; i++)
+		while (ok == 0)
 		{
-			cout << "Introduceti numarul de raduri disponibile in zona " << a.nume_zone[i] << ": ";
-			in >> a.randuri_per_zona[i];
+			suma_locuri = 0;
 
-			cout << "Introduceti numarul de locuri disponibile in zona " << a.nume_zone[i] << ": ";
-			in >> a.locuri_per_zona[i];
+			for (int i = 0; i < a.numar_zone; i++)
+			{
+				/*cout << "Introduceti numarul de raduri disponibile in zona " << a.nume_zone[i] << ": ";
+				in >> a.randuri_per_zona[i];*/
 
-	    }
+				cout << "Introduceti numarul de locuri disponibile in zona " << a.nume_zone[i] << ": ";
+				in >> a.locuri_per_zona[i];
+				suma_locuri = suma_locuri + a.locuri_per_zona[i];
+
+			}
+			if (suma_locuri > a.numar_max_locuri)
+			{
+				cout << "Capacitate depasita, introduceti datele din nou astfel incat suma sa fie mai mica decat capacitatea locatiei"<<endl;
+			}
+			else ok = 1;
+		}
 
 	return in;
 }
@@ -494,6 +508,7 @@ public:
 		string copy = denumire;
 		return denumire;
 	}
+
 	void initializeaza_bilete_ramase_per_zona(Locatie l)
 	{
 		int numar_zone = l.getNumar_zone();
@@ -621,13 +636,14 @@ public:
 	}
 	void leagatura_eveniment_locatie(Locatie l)
 	{
+		
 		this->l = l;
 	}
 
 
 
 
-	/*Eveniment(const Eveniment& a)
+	Eveniment(const Eveniment& a)
 	{
 		this->denumire = a.denumire;
 		this->an = a.an;
@@ -672,7 +688,7 @@ public:
 		{
 			delete[] this->bilete_ramase_per_zona;
 		}
-	}*/
+	}
 
 
 
@@ -735,8 +751,15 @@ istream& operator>>(istream& in, Eveniment& e)
 	time_t now = time(0);
 	tm* ltm = localtime(&now);
 
+	string buffer;
+	getline(in, buffer);
+
 	cout << "Introduceti denumirea evenimentului: ";
-	in >> e.denumire;
+
+	getline(in, buffer);
+	e.denumire = buffer;
+
+
 
 	cout << "Introduceti anul in care se va desfasura evenimentul: ";
 	in >> e.an;
@@ -893,7 +916,7 @@ public:
 		srand(time(0));
 		delete[] this->id;
 		
-		this->id = new long[this->numar_bilete_dorite];
+		this->id = new long[this->numar_bilete_dorite+1];
 		for (int i = 0; i < this->numar_bilete_dorite; i++)
 		{
 			this->id[i] = rand();
@@ -953,11 +976,10 @@ public:
 	//		delete[] this->id;
 	//	}
 	//}
-
-
 	
 
-	//Bilet(const Bilet& a) {
+	//Bilet(const Bilet& a) 
+	// {
 	//	this->nume_zona_dorita = a.nume_zona_dorita;
 	//	this->nume_cumparator = a.nume_cumparator;
 	//	this->suma_de_platit = a.suma_de_platit;
@@ -981,6 +1003,8 @@ public:
 	//	}
 	//}
 
+
+
 	friend ostream& operator<<(ostream& out, Bilet b);
 	friend istream& operator>>(istream& in, Bilet& b);
 
@@ -999,11 +1023,12 @@ ostream& operator<<(ostream& out, Bilet b)
 		cout << "Zona:" << b.nume_zona_dorita<<endl;
 		cout << "ID:" << b.id[i];
 
-		if (i != b.numar_bilete_dorite - 1)
+	/*	if (i != b.numar_bilete_dorite - 1)
 		{
-			cout << endl << endl << endl;
 			
-		}
+		}*/
+		cout << endl << endl << endl;
+
 	}
 	
 
@@ -1194,31 +1219,15 @@ int main()
 	cin >> e;
 	e.leagatura_eveniment_locatie(l);
 	
+
 	Bilet b;
 	b.legatura_intre_bilet_eveniment_locatie(l, e);
 
 	cin>>b;
 	cout << b;
-	
-
 
 }
-//string nume_locatie;
-//int numar_max_locuri;
-//int numar_zone;
-//char** nume_zone;
-//int* randuri_per_zona;
-//int* locuri_per_zona;
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
 
 
 
