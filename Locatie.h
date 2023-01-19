@@ -17,7 +17,7 @@ private:
 	const string oras;
 public:
 	
-	Locatie()
+	Locatie():oras("necunoscut")
 	{
 		nume_locatie = "necunoscut";
 		numar_max_locuri = 0;
@@ -28,7 +28,7 @@ public:
 		
 
 	}
-	Locatie(int numar_max_locuri, string nume_locatie, int numar_zone, char** nume_zone, int* randuri_per_zona, int* locuri_per_zona,string oras)
+	Locatie(int numar_max_locuri, string nume_locatie, int numar_zone, char** nume_zone, int* randuri_per_zona, int* locuri_per_zona,string oras):oras(oras)
 	{
 		this->nume_locatie = nume_locatie;
 		this->numar_max_locuri = numar_max_locuri;
